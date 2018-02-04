@@ -29,8 +29,14 @@ router.post('/videos/create', async (req, res, next) => {
     res.status(400).render('videos/create', { video: newVideo })
   } else {
     await newVideo.save()
-    res.render('videos/show', { newVideo: newVideo })
+    const id = newVideo._id.toString()
+    res.redirect('/video/'+id);
   }
+});
+
+router.get('/video/:id', async (req, res, next) => {
+  const video = await Video.findById(req.params.id)
+  res.render('videos/show', { video: video });
 });
 
 module.exports = router;

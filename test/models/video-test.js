@@ -24,9 +24,6 @@ describe('Video Model ->', () => {
       assert.strictEqual(video.description, integerDescription.toString());
     })
   });
-});
 
-// module.exports = {
-//   connectDatabase,
-//   disconnectDatabase,
-// }
+  // Question: is it better to not test if something is required here so that I can test it with the error message ar the routes level? 
+});

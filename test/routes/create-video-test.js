@@ -25,48 +25,31 @@ describe('Server path: /videos/create ->', () => {
 
   describe('POST ->', () => {
     it('create new video', async () => {
-      const itemToCreate = buildItemObject();
+      const newVideo = buildItemObject();
       const response = await request(app)
         .post('/videos/create')
         .type('form')
-        .send(itemToCreate);
+        .send(newVideo);
 
-        const createdItem = await Video.findOne(itemToCreate);
+        const createdItem = await Video.findOne(newVideo);
+        assert.equal(response.status, 302);
         assert.isOk(createdItem, 'Looks like item was not created successfully in the database');
     });
 
     it('cannot create video with NO title', async () => {
-      const itemToCreate = buildItemObject();
-      itemToCreate.title = '';
+      const newVideo = buildItemObject();
+      newVideo.title = '';
       const response = await request(app)
         .post('/videos/create')
         .type('form')
-        .send(itemToCreate);
+        .send(newVideo);
 
         assert.deepEqual(await Video.find({}), []);
         assert.equal(response.status, 400);
         assert.include(parseTextFromHTML(response.text, 'form'), 'Path `title` is required.');
-        assert.include(parseTextFromHTML(response.text, 'form'), itemToCreate.description);
-    });
-
-    it('new video data returned', async () => {
-      const itemToCreate = buildItemObject();
-      const response = await request(app)
-        .post('/videos/create')
-        .type('form')
-        .send(itemToCreate);
-
-        assert.include(parseTextFromHTML(response.text, 'body'), itemToCreate.title);
-        assert.include(parseTextFromHTML(response.text, 'body'), itemToCreate.description);
+        assert.include(parseTextFromHTML(response.text, 'form'), newVideo.description);
     });
 
   });
 
 });
-
-/*
-We still have a failing feature level test. At the server level, add a corresponding assertion to your server test. It should check that after a POST to '/videos' with a title and description, the response contains the video details.
-
-Write the minimum implementation within routes/videos.js to pass this test. Note that you don't necessarily need to save the video to the database to pass this test.
-
-You should now have a fully green test suite! Congrats!*/
