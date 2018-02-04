@@ -19,9 +19,3 @@ describe('User hits main page ->', () => {
     });
   });
 });
-
-/* Test that users can navigate to videos/create.html from the landing page and view a page that contains the text "Save a video".
-
-Write the minimum code to pass this test.
-
-Once passing, refactor the code for the create page to use correct HTML. Make sure to copy the head section from the index.html page to keep the style consistent. */

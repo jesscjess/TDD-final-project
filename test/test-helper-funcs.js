@@ -5,5 +5,6 @@ const buildItemObject = (options = {}) => {
 };
 
 module.exports = {
+  // parseTextFromHTML,
   buildItemObject
 };

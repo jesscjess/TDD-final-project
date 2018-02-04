@@ -16,10 +16,11 @@
   </div>
   <div class="contents-container">
     <h1>Save a Video</h1>
-    <form action="/videos" method="post">
-      <input id="title-input">
-      <textarea id="description-input"></textarea>
-      <button id="submit-button" type="submit"></button>
+    <form action="/videos/create" method="post">
+      <label for="title-input">Title: </label><input id="title-input" name="title-input">
+      <label for="description-input">Write description: </label>
+      <textarea id="description-input" name="description-input"></textarea>
+      <button id="submit-button" type="submit" class="add-video-button">Add video</button>
     </form>
   </div>
 </body>
