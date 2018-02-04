@@ -11,6 +11,10 @@ module.exports = mongoose.model(
     description: {
       type: String,
       // required: 'Path `description` is required.'
+    },
+    url: {
+      type: String,
+      // required: 'Path `description` is required.'
     }
   })
 );

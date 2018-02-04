@@ -22,8 +22,8 @@ router.get('/videos/create', async (req, res, next) => {
 });
 
 router.post('/videos/create', async (req, res, next) => {
-  const { title, description } = req.body;
-  const newVideo = new Video({ title, description });
+  const { title, description, url } = req.body;
+  const newVideo = new Video({ title, description, url });
   newVideo.validateSync();
   if(newVideo.errors){
     res.status(400).render('videos/create', { video: newVideo })
