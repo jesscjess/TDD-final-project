@@ -14,18 +14,18 @@ const app = require('../../app');
 const Video = require('../../models/video');
 
 const { parseTextFromHTML, buildItemObject } = require('../test-helper-funcs');
-const { connectDatabaseAndDropData, diconnectDatabase } = require('../setup-teardown-db-helper-funcs');
+const { connectDatabase, disconnectDatabase } = require('../db-helper-funcs');
 
 
 describe('Server path: /videos/create ->', () => {
 
-  beforeEach(connectDatabaseAndDropData);
+  beforeEach(connectDatabase);
 
-  afterEach(diconnectDatabase);
+  afterEach(disconnectDatabase);
 
   describe('POST ->', () => {
     it('create new video', async () => {
-      const itemToCreate = {title: 'Some title', description: 'some desc....'};
+      const itemToCreate = buildItemObject();
       const response = await request(app)
         .post('/videos/create')
         .type('form')
@@ -35,6 +35,38 @@ describe('Server path: /videos/create ->', () => {
         assert.isOk(createdItem, 'Looks like item was not created successfully in the database');
     });
 
+    it('cannot create video with NO title', async () => {
+      const itemToCreate = buildItemObject();
+      itemToCreate.title = '';
+      const response = await request(app)
+        .post('/videos/create')
+        .type('form')
+        .send(itemToCreate);
+
+        assert.deepEqual(await Video.find({}), []);
+        assert.equal(response.status, 400);
+        assert.include(parseTextFromHTML(response.text, 'form'), 'Path `title` is required.');
+        assert.include(parseTextFromHTML(response.text, 'form'), itemToCreate.description);
+    });
+
+    it('new video data returned', async () => {
+      const itemToCreate = buildItemObject();
+      const response = await request(app)
+        .post('/videos/create')
+        .type('form')
+        .send(itemToCreate);
+
+        assert.include(parseTextFromHTML(response.text, 'body'), itemToCreate.title);
+        assert.include(parseTextFromHTML(response.text, 'body'), itemToCreate.description);
+    });
+
   });
 
 });
+
+/*
+We still have a failing feature level test. At the server level, add a corresponding assertion to your server test. It should check that after a POST to '/videos' with a title and description, the response contains the video details.
+
+Write the minimum implementation within routes/videos.js to pass this test. Note that you don't necessarily need to save the video to the database to pass this test.
+
+You should now have a fully green test suite! Congrats!*/

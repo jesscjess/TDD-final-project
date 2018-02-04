@@ -5,7 +5,7 @@ const {buildItemObject} = require('../test-helper-funcs')
 describe('User visits create page ->', () => {
   describe('creates new video ->', () => {
     it('sees new video on main page', () => {
-      browser.url('/create.html');
+      browser.url('/videos/create');
       const newItem = buildItemObject()
 
       browser.setValue('#title-input', newItem.title);

@@ -13,7 +13,7 @@ describe('User hits main page ->', () => {
       browser.url('/');
       const title = 'Save a Video';
 
-      browser.click('a[href="/create.html"]')
+      browser.click('a[href="/videos/create]')
       assert.include(browser.getText('body'), title);
 
     });
